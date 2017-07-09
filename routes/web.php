@@ -17,11 +17,6 @@ Route::get('/', function () {
 
 Route::get('login', ['as' => 'login', 'uses' => 'UserController@view_login']);
 Route::post('login', ['as' => 'login', 'uses' => 'UserController@login']);
-
-Route::get('donate', [ 'as' => 'donate','uses' =>'UserController@donate']);
-Route::get('choice', [ 'as' => 'choice','uses' =>'UserController@choice']);
-Route::post('transactionid', [ 'as' => 'transactionid','uses' =>'UserController@transactionid']);
-
 Route::post('payment', ['as' => 'payment', 'uses' => 'UserController@payment']);
 Route::get('success', ['as' => 'success', 'uses' => 'UserController@success']);
 Route::get('test', ['as' => 'test', 'uses' => 'UserController@test']);

@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('type');
             $table->integer('choice')->default('0');
             $table->boolean('mail_sent')->default(false);
-            $table->boolean('donation_via_transaction')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -7,7 +7,7 @@
     <!-- Fonts -->
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
@@ -17,7 +17,6 @@
         min-height: 100vh;
         flex-direction: column;
     }
-
     main {
         flex: 1 0 auto;
     }
@@ -26,30 +25,7 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal(
-                {
-                    dismissible: true, // Modal can be dismissed by clicking outside of the modal
-                    opacity: .5, // Opacity of modal background
-                    inDuration: 300, // Transition in duration
-                    outDuration: 200, // Transition out duration
-                    startingTop: '4%', // Starting top style attribute
-                    endingTop: '10%', // Ending top style attribute
-                 });
-        $('#modal1').modal('open');
-    });
-</script>
-<div id="modal1" class="modal">
-    <div class="modal-content">
-        <h4>Gift your Caution Money</h4>
-        <p>Student donating the caution money as gift will get free hardcopy of yearbook!!</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">OK,I Got It</a>
-    </div>
-</div>
+
 <header>
     <nav>
         <div class="container">
@@ -58,31 +34,49 @@
     </nav>
 </header>
 <main>
-    <div class="center">
-        <h5> Select any of methods to donate</h5>
-        <div class="divider"></div>
-        <div class="section">
-            <h5>Donate Class Gift</h5>
-            {{--<form action="choice" method="post">--}}
-                <button onclick="window.location='{{ url("choice") }}'" class="btn waves-effect waves-light" type="submit" name="action1" value="options">
-                    Submit
-                    <i class="material-icons right">send</i>
-                </button>
-                {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-            {{--</form>--}}
-        </div>
-        <div class="divider"></div>
-        <div class="section">
-            <h5>Donate through SAIL portal</h5>
-                {{--<form action="donate" method="post">--}}
-                    <a href="https://auto.iitg.ernet.in/epay/donation/donation.jsp?" target="_blank">
-                    <button onclick="window.location='{{ url("donate") }}'" class="btn waves-effect waves-light" type="submit" name="action" value="options">Submit
-                        <i class="material-icons right">send</i>
-                    </button>
-                    {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-                    </a>
-                {{--</form>--}}
-        </div>
+    <div clas="container col-sm-12">
+        {{--{{Auth::user()}}--}}
+        <table class="table bordered highlight responsive-table centered">
+            <form method="post" action="payment">
+                <thead>
+                <tr>
+                    <th data-field="name">Name</th>
+                    <th data-field="description">Description</th>
+                    <th data-field="price">Price</th>
+                    <th data-field="image">image</th>
+                    <th data-field="select">select</th>
+                </tr>
+                </thead>
+                @for($i = 0; $i < count($options)-1; $i++)
+                    <tr>
+                        <td class="col-sm-2">{{$options[$i]->name}}</td>
+                        <td class="col-sm-3">{{$options[$i]->description}}</td>
+                        <td class="col-sm-2">{{$options[$i]->price}}</td>
+                        <td class="col-sm-3"><img src="images/{{$options[$i]->img_path}}" height="100" width="150"></td>
+                        <td class="col-sm-2">
+                            <input type="radio" name="choice" id="{{$options[$i]->id}}" value="{{$options[$i]->id}}">
+                            <label for="{{$options[$i]->id}}"></label>
+                        </td>
+                    </tr>
+                @endfor
+                <tr>
+                    <td class="col-sm-2">{{$options[$options->count()-1]->name}}</td>
+                    <td class="col-sm-3">{{$options[$options->count()-1]->description}}</td>
+                    <td class="col-sm-2"></td>
+                    <td class="col-sm-2"></td>
+
+                    {{--<td class="col-sm-3"><img src="images/{{$option->img_path}}" height="100" width="150"></td>--}}
+                    <td class="col-sm-2">
+                        <input type="radio" name="choice" id="100" value="100" checked>
+                        <label for="100"></label>
+                    </td>
+                </tr>
+                {{--need to make endorment fund as checked by default otherwise validation in usercontroller--}}
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        </table>
+        <input type="submit" value="choice">
+        </form>
+        <input type="button" onclick="location.href='/login';" value="Log Out" />
     </div>
 </main>
 <footer class="page-footer">
